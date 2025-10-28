@@ -1,8 +1,8 @@
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-NAME	= philosophers
+NAME	= philos
 INCS	= -I includes
-SRC		= src/main.c
+SRC		= src/main.c src/utils.c
 OBJS	= $(SRC:.c=.o)
 
 .SECONDARY: all
