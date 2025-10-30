@@ -15,12 +15,13 @@ int main(int argc, char *argv[])
 
 	parse_input(argc, argv, &table);
 	create_forks(&table);
+	create_philos(&table);
 	return (0);
 }
 
 // Validates and stores command line input.
 // If valid: 
-// 	- Converts the arguemnts their integer representations.
+// 	- Converts the arguments to their integer representations.
 // 	- Stores the converted values their respective fields
 // 	  inside the t_table struct.
 // If invalid:
@@ -40,7 +41,7 @@ int	parse_input(int argc, char *argv[], t_table *table)
 	return (0);
 }
 
-// Allocates memory for all fork mutexes and initialies each mutex.
+// Allocates memory for all fork mutexes and initializes each mutex.
 // On malloc() or mutex_init() failure, cleanup and exit.
 int	create_forks(t_table *table)
 {
@@ -60,6 +61,32 @@ int	create_forks(t_table *table)
 			table->forks = NULL;
 			return (exit_error("ERROR: mutex init failure"));
 		}
+		i++;
+	}
+	return (0);
+}
+
+// Allocates n_philos size array of t_philos.
+// Initializes each t_philos fields.
+// Note:
+//  - Philo ids start from 1.
+// 	- ((i + 1) % n_philos), ensures the last philos right fork is fork[0]. 
+int	create_philos(t_table *table)
+{
+	int	i;
+
+	table->philos = malloc(sizeof(t_philo) * table->n_philos);
+	if (!table->philos)
+		return (exit_error("ERROR: malloc failure."));
+	i = 0;
+	while (i < table->n_philos)
+	{
+		table->philos[i].id = i + 1;
+		table->philos[i].left_fork = &table->forks[i];
+		table->philos[i].right_fork = &table->forks[(i + 1) % table->n_philos];
+		table->philos[i].last_meal = 0;
+		table->philos[i].meals_eaten = 0;
+		table->philos[i].table = table;
 		i++;
 	}
 	return (0);
