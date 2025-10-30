@@ -43,5 +43,6 @@ int	ft_isdigit(int c);
 // cleanup.c
 int	exit_error(char *msg, t_table *table);
 int	destroy_forks(t_table *table);
+int free_philos(t_table *table);
  
 #endif
