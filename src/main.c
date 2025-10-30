@@ -11,9 +11,9 @@
 
 int main(int argc, char *argv[])
 {
-	int	args[5];
+	t_table table;
 
-	parse_input(argc, argv, args);
+	parse_input(argc, argv, &table);
 	return (0);
 }
 
@@ -21,18 +21,18 @@ int main(int argc, char *argv[])
 // Converts valid args to their integer representations.
 // Stores the values in args[] array.
 // Invalid input == Error and exit.
-int	parse_input(int argc, char *argv[], int args[5])
+int	parse_input(int argc, char *argv[], t_table *table)
 {
 	if ((argc != 5) && (argc != 6))
 		exit_error("Usage ./philo [t_philos] [t_die] [t_eat] [t_sleep] (opt)[n_meals]");
-	args[0] = pos_atoi(argv[1]);
-	args[1] = pos_atoi(argv[2]);
-	args[2] = pos_atoi(argv[3]);
-	args[3] = pos_atoi(argv[4]);
+	table->n_philos = pos_atoi(argv[1]);
+	table->t_die = pos_atoi(argv[2]);
+	table->t_eat = pos_atoi(argv[3]);
+	table->t_sleep = pos_atoi(argv[4]);
 	if (argc == 6)
-		args[4] = pos_atoi(argv[5]);
+		table->n_meals = pos_atoi(argv[5]);
 	else
-		args[4] = INT_MAX;
+		table->n_meals = INT_MAX;
 	return (0);
 }
 
