@@ -1,18 +1,5 @@
 #include "philosophers.h"
 
-int	ft_strlen(const char *s)
-{
-	int	len;
-
-	len = 0;
-	while (*s)
-	{
-		len++;
-		s++;
-	}
-	return (len);
-}
-
 int	ft_isdigit(int c)
 {
 	if ((c >= '0') && (c <= '9'))
