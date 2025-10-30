@@ -1,11 +1,5 @@
 #include "philosophers.h"
 
-int	exit_error(char *msg)
-{
-	printf("%s\n", msg);
-	exit(1);
-}
-
 int	ft_strlen(const char *s)
 {
 	int	len;
@@ -45,17 +39,17 @@ int	pos_atoi(const char *s)
 	if (s[i] == '+' || s[i] == '-')
 	{
 		if (s[i] == '-')
-			exit_error("ERROR: Negative values are invalid.");
+			exit_error("ERROR: Negative values are invalid.", NULL);
 		i++;
 	}
 	while (s[i] >= '0' && s[i] <= '9')
 	{
 		res = res * 10 + (s[i] - '0');
 		if (res > INT_MAX)
-			exit_error("ERROR: Input too large.");
+			exit_error("ERROR: Input too large.", NULL);
 		i++;
 	}
 	if (s[i] != '\0' || res <= 0)
-		exit_error("ERROR: Non-numeric or empty input.");
+		exit_error("ERROR: Non-numeric or empty input.", NULL);
 	return ((int)res);
 }

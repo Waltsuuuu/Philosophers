@@ -37,8 +37,11 @@ int	create_philos(t_table *table);
 
 // utils.c
 int	pos_atoi(const char *s);
-int	exit_error(char *msg);
 int	ft_strlen(const char *s);
 int	ft_isdigit(int c);
 
+// cleanup.c
+int	exit_error(char *msg, t_table *table);
+int	destroy_forks(t_table *table);
+ 
 #endif

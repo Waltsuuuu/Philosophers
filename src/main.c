@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 int	parse_input(int argc, char *argv[], t_table *table)
 {
 	if ((argc != 5) && (argc != 6))
-		exit_error("Usage ./philo [t_philos] [t_die] [t_eat] [t_sleep] (opt)[n_meals]");
+		exit_error("Usage ./philo [t_philos] [t_die] [t_eat] [t_sleep] (opt)[n_meals]", NULL);
 	table->n_philos = pos_atoi(argv[1]);
 	table->t_die = pos_atoi(argv[2]);
 	table->t_eat = pos_atoi(argv[3]);
@@ -49,7 +49,7 @@ int	create_forks(t_table *table)
 
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->n_philos);
 	if (!table->forks)
-		return(exit_error("ERROR: malloc failure."));
+		return(exit_error("ERROR: malloc failure.", table));
 	i = 0;
 	while (i < table->n_philos)
 	{
@@ -59,7 +59,7 @@ int	create_forks(t_table *table)
 				pthread_mutex_destroy(&table->forks[i]);
 			free(table->forks);
 			table->forks = NULL;
-			return (exit_error("ERROR: mutex init failure"));
+			return (exit_error("ERROR: mutex init failure", table));
 		}
 		i++;
 	}
@@ -77,7 +77,7 @@ int	create_philos(t_table *table)
 
 	table->philos = malloc(sizeof(t_philo) * table->n_philos);
 	if (!table->philos)
-		return (exit_error("ERROR: malloc failure."));
+		return (exit_error("ERROR: malloc failure.", table));
 	i = 0;
 	while (i < table->n_philos)
 	{
