@@ -1,26 +1,30 @@
 #include "philosophers.h"
 
-// ARGV 
+// ARGV[] 
 // 		ex. w/o meals	./philo 5 800 200 200 
 //		ex. w/ meal 	./philo 5 800 200 200 8
-// 1 n_philos
-// 2 t_die
-// 3 t_eat
-// 4 t_sleep
-// 5 [opt] n_meals
+// [1] n_philos
+// [2] t_die
+// [3] t_eat
+// [4] t_sleep
+// [5] n_meals [optional] 
 
 int main(int argc, char *argv[])
 {
 	t_table table;
 
 	parse_input(argc, argv, &table);
+	create_forks(&table);
 	return (0);
 }
 
-// Validates input.
-// Converts valid args to their integer representations.
-// Stores the values in args[] array.
-// Invalid input == Error and exit.
+// Validates and stores command line input.
+// If valid: 
+// 	- Converts the arguemnts their integer representations.
+// 	- Stores the converted values their respective fields
+// 	  inside the t_table struct.
+// If invalid:
+//	- Error and exit.
 int	parse_input(int argc, char *argv[], t_table *table)
 {
 	if ((argc != 5) && (argc != 6))
@@ -36,35 +40,27 @@ int	parse_input(int argc, char *argv[], t_table *table)
 	return (0);
 }
 
-// Converts a numeric string to an integer.
-// Error and exit if input is:
-//  - non-numeric.
-//	- negative.
-//	- greater than INT_MAX.
-//	- empty or 0.
-int	pos_atoi(const char *s)
+// Allocates memory for all fork mutexes and initialies each mutex.
+// On malloc() or mutex_init() failure, cleanup and exit.
+int	create_forks(t_table *table)
 {
-	int		i;
-	long	res;
+	int	i;
 
+	table->forks = malloc(sizeof(pthread_mutex_t) * table->n_philos);
+	if (!table->forks)
+		return(exit_error("ERROR: malloc failure."));
 	i = 0;
-	res = 0;
-	while ((s[i] >= 9 && s[i] <= 13) || s[i] == ' ')
-		i++;
-	if (s[i] == '+' || s[i] == '-')
+	while (i < table->n_philos)
 	{
-		if (s[i] == '-')
-			exit_error("ERROR: Negative values are invalid.");
+		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
+		{
+			while (--i >= 0)
+				pthread_mutex_destroy(&table->forks[i]);
+			free(table->forks);
+			table->forks = NULL;
+			return (exit_error("ERROR: mutex init failure"));
+		}
 		i++;
 	}
-	while (s[i] >= '0' && s[i] <= '9')
-	{
-		res = res * 10 + (s[i] - '0');
-		if (res > INT_MAX)
-			exit_error("ERROR: Input too large.");
-		i++;
-	}
-	if (s[i] != '\0' || res <= 0)
-		exit_error("ERROR: Non-numeric or empty input.");
-	return ((int)res);
+	return (0);
 }

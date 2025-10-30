@@ -14,14 +14,15 @@ typedef struct s_table
 	int				t_eat;
 	int				t_sleep;
 	int				n_meals;
-	// pthread_mutex_t	*forks;
+	pthread_mutex_t	*forks;
 }	t_table;
 
 // main.c
 int	parse_input(int argc, char *argv[], t_table *table);
-int	pos_atoi(const char *s);
+int	create_forks(t_table *table);
 
 // utils.c
+int	pos_atoi(const char *s);
 int	exit_error(char *msg);
 int	ft_strlen(const char *s);
 int	ft_isdigit(int c);
