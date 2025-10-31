@@ -8,7 +8,7 @@ int	exit_error(char *msg, t_table *table)
 		free_philos(table);
 		destroy_forks(table);
 	}
-	exit(1);
+	exit(FAILURE);
 }
 
 int	destroy_forks(t_table *table)
@@ -16,7 +16,7 @@ int	destroy_forks(t_table *table)
 	int	i;
 
 	if (!table->forks)
-		return (0);
+		return (SUCCESS);
 	i = 0;
 	while (i < table->n_philos)
 	{
@@ -25,7 +25,7 @@ int	destroy_forks(t_table *table)
 	}
 	free(table->forks);
 	table->forks = NULL;
-	return (0);
+	return (SUCCESS);
 }
 
 int free_philos(t_table *table)
@@ -34,5 +34,5 @@ int free_philos(t_table *table)
 		return (0);
 	free(table->philos);
 	table->philos = NULL;
-	return (0);
+	return (SUCCESS);
 }

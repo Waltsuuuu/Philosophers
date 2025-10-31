@@ -1,13 +1,5 @@
 #include "philosophers.h"
 
-int	ft_isdigit(int c)
-{
-	if ((c >= '0') && (c <= '9'))
-		return (1);
-	else
-		return (0);
-}
-
 // Converts a numeric string to an integer.
 // Error and exit if input is:
 //  - non-numeric.

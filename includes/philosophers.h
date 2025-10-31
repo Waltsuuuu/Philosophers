@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+# define SUCCESS 0
+# define FAILURE 1
+
 typedef struct s_table	t_table;
 
 typedef struct s_philo
@@ -17,6 +20,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	long			last_meal;
 	t_table			*table;
+	pthread_t		thread;
 }	t_philo;
 
 typedef struct s_table
@@ -34,6 +38,8 @@ typedef struct s_table
 int	parse_input(int argc, char *argv[], t_table *table);
 int	create_forks(t_table *table);
 int	create_philos(t_table *table);
+int	start_threads(t_table *table);
+void	*philo_routine(void *arg);
 
 // utils.c
 int	pos_atoi(const char *s);

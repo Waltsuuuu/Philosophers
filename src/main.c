@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
 	parse_input(argc, argv, &table);
 	create_forks(&table);
 	create_philos(&table);
-	return (0);
+	start_threads(&table);
+	return (SUCCESS);
 }
 
 // Validates and stores command line input.
@@ -38,10 +39,10 @@ int	parse_input(int argc, char *argv[], t_table *table)
 		table->n_meals = pos_atoi(argv[5]);
 	else
 		table->n_meals = INT_MAX;
-	return (0);
+	return (SUCCESS);
 }
 
-// Allocates memory for all fork mutexes and initializes each mutex.
+// Allocates memory for all "fork" mutexes and initializes each mutex.
 // On malloc() or mutex_init() failure, cleanup and exit.
 int	create_forks(t_table *table)
 {
@@ -49,21 +50,21 @@ int	create_forks(t_table *table)
 
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->n_philos);
 	if (!table->forks)
-		return(exit_error("ERROR: malloc failure.", table));
+		return(exit_error("ERROR: malloc() failure.", table));
 	i = 0;
 	while (i < table->n_philos)
 	{
-		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
+		if (pthread_mutex_init(&table->forks[i], NULL) != SUCCESS)
 		{
 			while (--i >= 0)
 				pthread_mutex_destroy(&table->forks[i]);
 			free(table->forks);
 			table->forks = NULL;
-			return (exit_error("ERROR: mutex init failure", table));
+			return (exit_error("ERROR: mutex_init() failure", table));
 		}
 		i++;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 // Allocates n_philos size array of t_philos.
@@ -77,7 +78,7 @@ int	create_philos(t_table *table)
 
 	table->philos = malloc(sizeof(t_philo) * table->n_philos);
 	if (!table->philos)
-		return (exit_error("ERROR: malloc failure.", table));
+		return (exit_error("ERROR: malloc() failure.", table));
 	i = 0;
 	while (i < table->n_philos)
 	{
@@ -89,5 +90,32 @@ int	create_philos(t_table *table)
 		table->philos[i].table = table;
 		i++;
 	}
-	return (0);
+	return (SUCCESS);
+}
+
+void	*philo_routine(void *arg)
+{
+	(void)arg;
+	return (NULL);
+}
+
+// Creates n_philos threads, which begin at philo_routine().
+// On failure, joins already created threads, cleans and exits.
+int	start_threads(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->n_philos)
+	{
+		if (pthread_create(&table->philos[i].thread, NULL, philo_routine,
+				&table->philos[i]) != SUCCESS)
+		{
+			while (--i >= 0)
+				pthread_join(table->philos[i].thread, NULL);
+			return (exit_error("ERROR: pthread_create() failure.", table));
+		}
+		i++;
+	}
+	return (SUCCESS);
 }
