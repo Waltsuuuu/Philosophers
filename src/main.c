@@ -102,6 +102,12 @@ int	start_threads(t_table *table)
 
 	i = 0;
 	table->start_ms = fetch_time_ms();
+	while ( i < table->n_philos)
+	{
+		table->philos[i].last_meal = table->start_ms;
+		i++;
+	}
+	i = 0;
 	while (i < table->n_philos)
 	{
 		if (pthread_create(&table->philos[i].thread, NULL, philo_routine,
