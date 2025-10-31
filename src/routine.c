@@ -10,6 +10,7 @@ void	*philo_routine(void *philo_data)
 	take_forks(philo);
 	eat(philo);
 	drop_forks(philo);
+	philo_sleep(philo);
 	return (NULL);
 }
 
@@ -69,4 +70,12 @@ void	drop_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->fork1);
 	pthread_mutex_unlock(philo->fork2);
+}
+
+// Sleeps (usleep) for t_sleep milliseconds.
+void	philo_sleep(t_philo *philo)
+{
+	printf("%ld %d is sleeping\n",
+		time_since_start_ms(philo->table->start_ms), philo->id);
+	usleep(philo->table->t_sleep * 1000);
 }

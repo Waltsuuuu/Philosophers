@@ -63,5 +63,6 @@ void	think(t_philo *philo);
 void	take_forks(t_philo *philo);
 void	eat(t_philo *philo);
 void	drop_forks(t_philo *philo);
+void	philo_sleep(t_philo *philo);
 
 #endif
