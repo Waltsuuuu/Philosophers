@@ -99,7 +99,7 @@ void	*philo_routine(void *philo_data)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_data;
-	printf("philo %d started at %lu\n", philo->id, fetch_time_ms());
+	printf("philo %d started at %lu\n", philo->id, simulation_time_ms(philo->table->start_ms));
 	return (NULL);
 }
 
@@ -110,6 +110,7 @@ int	start_threads(t_table *table)
 	int	i;
 
 	i = 0;
+	table->start_ms = fetch_time_ms();
 	while (i < table->n_philos)
 	{
 		if (pthread_create(&table->philos[i].thread, NULL, philo_routine,

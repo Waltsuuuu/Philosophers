@@ -21,3 +21,15 @@ long	fetch_time_ms(void)
 	return (time_data.tv_sec * 1000L + time_data.tv_usec / 1000L);
 }
 
+// Returns the elapsed time from the
+// start of the simulation, in milliseconds.
+// Used for action timestamps.
+long	time_since_start_ms(long start_ms)
+{
+	long	now;
+
+	now = fetch_time_ms();
+	if (now < start_ms)
+		return (0);
+	return (now - start_ms);
+}

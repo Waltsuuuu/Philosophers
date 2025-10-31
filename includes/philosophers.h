@@ -33,6 +33,7 @@ typedef struct s_table
 	int				n_meals;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
+	long			start_ms;
 }	t_table;
 
 // main.c
@@ -54,5 +55,6 @@ int free_philos(t_table *table);
 
 // timing.c
 long	fetch_time_ms(void);
+long	time_since_start_ms(long start_ms);
  
 #endif
