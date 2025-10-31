@@ -61,6 +61,7 @@ void	*philo_routine(void *philo_data);
 void	sync_start(t_philo *philo);
 void	think(t_philo *philo);
 void	take_forks(t_philo *philo);
+void	eat(t_philo *philo);
 void	drop_forks(t_philo *philo);
 
 #endif

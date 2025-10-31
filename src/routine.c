@@ -8,6 +8,7 @@ void	*philo_routine(void *philo_data)
 	sync_start(philo);
 	think(philo);
 	take_forks(philo);
+	eat(philo);
 	drop_forks(philo);
 	return (NULL);
 }
@@ -49,6 +50,18 @@ void	take_forks(t_philo *philo)
 		printf("%ld %d has taken a fork\n",
 			time_since_start_ms(philo->table->start_ms), philo->id);
 	}
+}
+
+// Sets last_meal to current timestamp when philo begins eating.
+// Eats (usleep) for t_eat milliseconds.
+// Increases meals_eaten by one.
+void	eat(t_philo *philo)
+{
+	printf("%ld %d is eating\n",
+		time_since_start_ms(philo->table->start_ms), philo->id);
+	philo->last_meal = fetch_time_ms();
+	usleep(philo->table->t_eat * 1000);
+	philo->meals_eaten += 1;
 }
 
 // Release 'fork mutex.
