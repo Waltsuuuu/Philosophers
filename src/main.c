@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 	create_forks(&table);
 	create_philos(&table);
 	start_threads(&table);
+	join_threads(&table);
 	return (SUCCESS);
 }
 
@@ -93,9 +94,12 @@ int	create_philos(t_table *table)
 	return (SUCCESS);
 }
 
-void	*philo_routine(void *arg)
+void	*philo_routine(void *philo_data)
 {
-	(void)arg;
+	t_philo	*philo;
+
+	philo = (t_philo *)philo_data;
+	printf("philo %d started\n", philo->id);
 	return (NULL);
 }
 
@@ -115,6 +119,24 @@ int	start_threads(t_table *table)
 				pthread_join(table->philos[i].thread, NULL);
 			return (exit_error("ERROR: pthread_create() failure.", table));
 		}
+		i++;
+	}
+	return (SUCCESS);
+}
+
+// Waits for all philo threads to terminate.
+// Note:
+// 	- If a thread has already terminated, then
+// 	  pthread_join() returns immediately.
+//  - Meaning the order in which they terminate does not matter.
+int	join_threads(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->n_philos)
+	{
+		pthread_join(table->philos[i].thread, NULL);
 		i++;
 	}
 	return (SUCCESS);

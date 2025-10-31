@@ -39,12 +39,12 @@ int	parse_input(int argc, char *argv[], t_table *table);
 int	create_forks(t_table *table);
 int	create_philos(t_table *table);
 int	start_threads(t_table *table);
-void	*philo_routine(void *arg);
+int	join_threads(t_table *table);
+void	*philo_routine(void *philo_data);
 
 // utils.c
 int	pos_atoi(const char *s);
 int	ft_strlen(const char *s);
-int	ft_isdigit(int c);
 
 // cleanup.c
 int	exit_error(char *msg, t_table *table);
