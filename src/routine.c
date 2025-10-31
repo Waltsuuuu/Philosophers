@@ -5,10 +5,18 @@ void	*philo_routine(void *philo_data)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_data;
+	sync_start(philo);
 	think(philo);
 	take_forks(philo);
 	drop_forks(philo);
 	return (NULL);
+}
+
+// All philos wait until start_ms is reached, before beginning the routine.
+void	sync_start(t_philo *philo)
+{
+	while (fetch_time_ms() < philo->table->start_ms)
+		usleep(100);
 }
 
 void	think(t_philo *philo)

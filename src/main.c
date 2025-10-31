@@ -95,13 +95,17 @@ int	create_philos(t_table *table)
 }
 
 // Creates n_philos threads, which begin at philo_routine().
+// Sets start_ms - The beginning timestamp of the simulation + 50ms buffer.
+// 		- In the routine, all philos will wait until until
+//		  start_ms is reached before beginning the routine.
+// Sets each philos initial last_meal to start_ms.
 // On failure, joins already created threads, cleans and exits.
 int	start_threads(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	table->start_ms = fetch_time_ms();
+	table->start_ms = fetch_time_ms() + 50;
 	while ( i < table->n_philos)
 	{
 		table->philos[i].last_meal = table->start_ms;
