@@ -6,6 +6,11 @@ void	*philo_routine(void *philo_data)
 
 	philo = (t_philo *)philo_data;
 	sync_start(philo);
+	if (philo->table->n_philos == 1)
+	{
+		single_philo_case(philo);
+		return (NULL);
+	}
 	think(philo);
 	take_forks(philo);
 	eat(philo);
@@ -20,6 +25,19 @@ void	sync_start(t_philo *philo)
 	while (fetch_time_ms() < philo->table->start_ms)
 		usleep(100);
 }
+
+// 1 philo == 1 fork at table == cant eat == die.
+void	single_philo_case(t_philo *philo)
+{
+	pthread_mutex_lock(philo->fork1);
+	printf("%ld %d has taken a fork\n",
+		time_since_start_ms(philo->table->start_ms), philo->id);
+	usleep(philo->table->t_die * 1000);
+	printf("%ld %d died\n",
+		time_since_start_ms(philo->table->start_ms), philo->id);
+	pthread_mutex_unlock(philo->fork1);
+}
+
 
 void	think(t_philo *philo)
 {
