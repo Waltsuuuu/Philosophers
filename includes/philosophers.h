@@ -58,7 +58,8 @@ long	time_since_start_ms(long start_ms);
 
 // routine.c
 void	*philo_routine(void *philo_data);
-void	philo_think(t_philo *philo);
-void	philo_take_forks(t_philo *philo);
+void	think(t_philo *philo);
+void	take_forks(t_philo *philo);
+void	drop_forks(t_philo *philo);
 
 #endif

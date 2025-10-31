@@ -5,22 +5,23 @@ void	*philo_routine(void *philo_data)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_data;
-	philo_think(philo);
-	philo_take_forks(philo);
+	think(philo);
+	take_forks(philo);
+	drop_forks(philo);
 	return (NULL);
 }
 
-void	philo_think(t_philo *philo)
+void	think(t_philo *philo)
 {
 	printf("%ld %d is thinking\n",
 		time_since_start_ms(philo->table->start_ms), philo->id);
 }
 
-// Take fork = Attempt to lock fork mutex.
-// Even philos - left fork, then right fork.
-// Odd philos - right fork, then left fork.
-// fork1 = left. fork2 = right.
-void	philo_take_forks(t_philo *philo)
+// Take fork == Attempt to lock 'fork' mutex.
+// Pick up order:
+// 	- Even philos - fork1 (left), then fork2 (right).
+// 	- Odd philos  - fork2 (right), then fork1 (left).
+void	take_forks(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
@@ -40,4 +41,11 @@ void	philo_take_forks(t_philo *philo)
 		printf("%ld %d has taken a fork\n",
 			time_since_start_ms(philo->table->start_ms), philo->id);
 	}
+}
+
+// Release 'fork mutex.
+void	drop_forks(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->fork1);
+	pthread_mutex_unlock(philo->fork2);
 }
