@@ -72,7 +72,7 @@ int	create_forks(t_table *table)
 // Initializes each t_philos fields.
 // Note:
 //  - Philo ids start from 1.
-// 	- ((i + 1) % n_philos), ensures the last philos right fork is fork[0]. 
+// 	- ((i + 1) % n_philos), ensures the last philos fork2 (right frork) is fork[0]. 
 int	create_philos(t_table *table)
 {
 	int	i;
@@ -84,23 +84,14 @@ int	create_philos(t_table *table)
 	while (i < table->n_philos)
 	{
 		table->philos[i].id = i + 1;
-		table->philos[i].left_fork = &table->forks[i];
-		table->philos[i].right_fork = &table->forks[(i + 1) % table->n_philos];
+		table->philos[i].fork1 = &table->forks[i];
+		table->philos[i].fork2 = &table->forks[(i + 1) % table->n_philos];
 		table->philos[i].last_meal = 0;
 		table->philos[i].meals_eaten = 0;
 		table->philos[i].table = table;
 		i++;
 	}
 	return (SUCCESS);
-}
-
-void	*philo_routine(void *philo_data)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)philo_data;
-	printf("philo %d started at %lu\n", philo->id, simulation_time_ms(philo->table->start_ms));
-	return (NULL);
 }
 
 // Creates n_philos threads, which begin at philo_routine().

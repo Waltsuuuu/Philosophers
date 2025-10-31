@@ -16,8 +16,8 @@ typedef struct s_table	t_table;
 typedef struct s_philo
 {
 	int				id;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*fork1;
+	pthread_mutex_t	*fork2;
 	int				meals_eaten;
 	long			last_meal;
 	t_table			*table;
@@ -42,7 +42,6 @@ int	create_forks(t_table *table);
 int	create_philos(t_table *table);
 int	start_threads(t_table *table);
 int	join_threads(t_table *table);
-void	*philo_routine(void *philo_data);
 
 // utils.c
 int	pos_atoi(const char *s);
@@ -56,5 +55,9 @@ int free_philos(t_table *table);
 // timing.c
 long	fetch_time_ms(void);
 long	time_since_start_ms(long start_ms);
- 
+
+// routine.c
+void	*philo_routine(void *philo_data);
+void	philo_think(t_philo *philo);
+
 #endif
