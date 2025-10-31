@@ -6,6 +6,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sys/time.h>
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -50,5 +51,8 @@ int	ft_strlen(const char *s);
 int	exit_error(char *msg, t_table *table);
 int	destroy_forks(t_table *table);
 int free_philos(t_table *table);
+
+// timing.c
+long	fetch_time_ms(void);
  
 #endif

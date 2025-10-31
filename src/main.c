@@ -99,7 +99,7 @@ void	*philo_routine(void *philo_data)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_data;
-	printf("philo %d started\n", philo->id);
+	printf("philo %d started at %lu\n", philo->id, fetch_time_ms());
 	return (NULL);
 }
 
