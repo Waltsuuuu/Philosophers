@@ -11,11 +11,14 @@ void	*philo_routine(void *philo_data)
 		single_philo_case(philo);
 		return (NULL);
 	}
-	think(philo);
-	take_forks(philo);
-	eat(philo);
-	drop_forks(philo);
-	philo_sleep(philo);
+	while (philo->meals_eaten < philo->table->n_meals)
+	{
+		think(philo);
+		take_forks(philo);
+		eat(philo);
+		drop_forks(philo);
+		philo_sleep(philo);
+	}
 	return (NULL);
 }
 
