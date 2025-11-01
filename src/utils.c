@@ -62,6 +62,7 @@ long	get_last_meal(t_philo *philo)
 	return (value);
 }
 
+// Thread-safe 'last_meal' value updated for philo[i].
 void	set_last_meal(t_philo *philo, long time)
 {
 	pthread_mutex_lock(&philo->meal_mutex);
@@ -69,19 +70,20 @@ void	set_last_meal(t_philo *philo, long time)
 	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
-// Thread-safe 'last_meal' value checker for philo[i].
-long	get_meals_eaten(t_philo *philo)
+// Thread-safe 'meals_eaten' value checker for philo[i].
+int	get_meals_eaten(t_philo *philo)
 {
-	long	value;
+	int	value;
 	pthread_mutex_lock(&philo->meal_mutex);
 	value = philo->meals_eaten;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	return (value);
 }
 
-void	set_meals_eaten(t_philo *philo, int value)
+// Thread-safe 'meals_eaten' value incrementer for philo[i].
+void	increment_meals_eaten(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_mutex);
-	philo->meals_eaten = value;
+	philo->meals_eaten += 1;
 	pthread_mutex_unlock(&philo->meal_mutex);
 }
