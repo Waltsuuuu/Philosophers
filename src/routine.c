@@ -12,7 +12,7 @@ void	*philo_routine(void *philo_data)
 		return (NULL);
 	}
 	while (get_end_sim(philo->table) == FALSE
-		&& philo->meals_eaten < philo->table->n_meals)
+		&& get_meals_eaten(philo) < philo->table->n_meals)
 	{
 		if ((philo->table->n_philos % 2) == 1 && (philo->id % 2) == 0)
 			usleep((philo->table->t_eat / 2) * 1000);
@@ -82,9 +82,9 @@ void	eat(t_philo *philo)
 {
 	printf("%ld %d is eating\n",
 		time_since_start_ms(philo->table->start_ms), philo->id);
-	philo->last_meal = fetch_time_ms();
+	set_last_meal(philo, fetch_time_ms());
+	increment_meals_eaten(philo);
 	usleep(philo->table->t_eat * 1000);
-	philo->meals_eaten += 1;
 }
 
 // Release 'fork mutex.
