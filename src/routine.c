@@ -14,9 +14,8 @@ void	*philo_routine(void *philo_data)
 	while (get_end_sim(philo->table) == FALSE
 		&& philo->meals_eaten < philo->table->n_meals)
 	{
-		if (philo->id % 2 == 0)
-		    usleep((philo->table->t_eat / 2) * 1000);
-
+		if ((philo->table->n_philos % 2) == 1 && (philo->id % 2) == 0)
+			usleep((philo->table->t_eat / 2) * 1000);
 		think(philo);
 		take_forks(philo);
 		eat(philo);
