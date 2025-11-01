@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 	create_philos(&table);
 	init_stop_mutex_and_end_flag(&table);
 	start_threads(&table);
+	run_monitor(&table);
 	join_threads(&table);
 	return (SUCCESS);
 }

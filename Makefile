@@ -1,8 +1,8 @@
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-NAME	= philos
+NAME	= philo
 INCS	= -I includes
-SRC		= src/main.c src/utils.c src/cleanup.c src/timing.c src/routine.c
+SRC		= src/main.c src/utils.c src/cleanup.c src/timing.c src/routine.c src/monitor.c
 OBJS	= $(SRC:.c=.o)
 
 .SECONDARY: all

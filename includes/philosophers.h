@@ -49,6 +49,10 @@ int	init_stop_mutex_and_end_flag(t_table *table);
 int	start_threads(t_table *table);
 int	join_threads(t_table *table);
 
+// monitor.c
+void	run_monitor(t_table *table);
+int		all_philos_fed(t_table *table);
+
 // utils.c
 int		pos_atoi(const char *s);
 int		get_end_sim(t_table *table);
