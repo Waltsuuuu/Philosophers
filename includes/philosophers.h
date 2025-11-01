@@ -11,6 +11,9 @@
 # define SUCCESS 0
 # define FAILURE 1
 
+# define FALSE 0
+# define TRUE 1
+
 typedef struct s_table	t_table;
 
 typedef struct s_philo
@@ -34,12 +37,15 @@ typedef struct s_table
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
 	long			start_ms;
+	int				end_sim;
+	pthread_mutex_t	stop_mutex;
 }	t_table;
 
 // main.c
 int	parse_input(int argc, char *argv[], t_table *table);
 int	create_forks(t_table *table);
 int	create_philos(t_table *table);
+int	init_stop_mutex_and_end_flag(t_table *table);
 int	start_threads(t_table *table);
 int	join_threads(t_table *table);
 

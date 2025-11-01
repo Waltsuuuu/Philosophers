@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 	parse_input(argc, argv, &table);
 	create_forks(&table);
 	create_philos(&table);
+	init_stop_mutex_and_end_flag(&table);
 	start_threads(&table);
 	join_threads(&table);
 	return (SUCCESS);
@@ -43,7 +44,7 @@ int	parse_input(int argc, char *argv[], t_table *table)
 	return (SUCCESS);
 }
 
-// Allocates memory for all "fork" mutexes and initializes each mutex.
+// Allocates memory an array of mutexes (forks) and initializes each mutex.
 // On malloc() or mutex_init() failure, cleanup and exit.
 int	create_forks(t_table *table)
 {
@@ -91,6 +92,16 @@ int	create_philos(t_table *table)
 		table->philos[i].table = table;
 		i++;
 	}
+	return (SUCCESS);
+}
+
+// Initializes the stop mutex and sets the simulation stop flag to FALSE.
+// On mutex_init() failure, cleanup and exit.
+int	init_stop_mutex_and_end_flag(t_table *table)
+{
+	if (pthread_mutex_init(&table->stop_mutex, NULL) != SUCCESS)
+		return (exit_error("ERROR: mutex_init() failure.", table));
+	table->end_sim = FALSE;
 	return (SUCCESS);
 }
 

@@ -7,6 +7,7 @@ int	exit_error(char *msg, t_table *table)
 	{
 		free_philos(table);
 		destroy_forks(table);
+		pthread_mutex_destroy(&table->stop_mutex);
 	}
 	exit(FAILURE);
 }
