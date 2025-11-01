@@ -59,10 +59,16 @@ int		all_philos_fed(t_table *table);
 int		pos_atoi(const char *s);
 int		get_end_sim(t_table *table);
 void	set_end_sim(t_table *table, int value);
+long	get_last_meal(t_philo *philo);
+void	set_last_meal(t_philo *philo, long time);
+int		get_meals_eaten(t_philo *philo);
+void	increment_meals_eaten(t_philo *philo);
+
 
 // cleanup.c
 int	exit_error(char *msg, t_table *table);
-int	destroy_forks_and_meal_mutexes(t_table *table);
+int	destroy_meal_mutexes(t_table *table);
+int	destroy_forks(t_table *table);
 int free_philos(t_table *table);
 
 // timing.c
