@@ -13,10 +13,10 @@ int main(int argc, char *argv[])
 {
 	t_table table;
 
+	init_stop_mutex_and_end_flag(&table);
 	parse_input(argc, argv, &table);
 	create_forks(&table);
 	create_philos(&table);
-	init_stop_mutex_and_end_flag(&table);
 	start_threads(&table);
 	run_monitor(&table);
 	join_threads(&table);
@@ -83,6 +83,7 @@ int	create_philos(t_table *table)
 	if (!table->philos)
 		return (exit_error("ERROR: malloc() failure.", table));
 	i = 0;
+	table->meal_mutex_inited = 0;
 	while (i < table->n_philos)
 	{
 		table->philos[i].id = i + 1;
@@ -92,11 +93,8 @@ int	create_philos(t_table *table)
 		table->philos[i].meals_eaten = 0;
 		table->philos[i].table = table;
 		if (pthread_mutex_init(&table->philos[i].meal_mutex, NULL) != SUCCESS)
-		{
-			while (--i >= 0)
-				pthread_mutex_destroy(&table->philos[i].meal_mutex);
 			return (exit_error("ERROR: mutex_init() failure.\n", table));
-		}
+		table->meal_mutex_inited++;
 		i++;
 	}
 	return (SUCCESS);
@@ -107,7 +105,7 @@ int	create_philos(t_table *table)
 int	init_stop_mutex_and_end_flag(t_table *table)
 {
 	if (pthread_mutex_init(&table->stop_mutex, NULL) != SUCCESS)
-		return (exit_error("ERROR: mutex_init() failure.", table));
+		return (exit_error("ERROR: mutex_init() failure.", NULL));
 	table->end_sim = FALSE;
 	return (SUCCESS);
 }

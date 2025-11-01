@@ -51,3 +51,37 @@ void	set_end_sim(t_table *table, int value)
 	table->end_sim = value;
 	pthread_mutex_unlock(&table->stop_mutex);
 }
+
+// Thread-safe 'last_meal' value checker for philo[i].
+long	get_last_meal(t_philo *philo)
+{
+	long	value;
+	pthread_mutex_lock(&philo->meal_mutex);
+	value = philo->last_meal;
+	pthread_mutex_unlock(&philo->meal_mutex);
+	return (value);
+}
+
+void	set_last_meal(t_philo *philo, long time)
+{
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal = time;
+	pthread_mutex_unlock(&philo->meal_mutex);
+}
+
+// Thread-safe 'last_meal' value checker for philo[i].
+long	get_meals_eaten(t_philo *philo)
+{
+	long	value;
+	pthread_mutex_lock(&philo->meal_mutex);
+	value = philo->meals_eaten;
+	pthread_mutex_unlock(&philo->meal_mutex);
+	return (value);
+}
+
+void	set_meals_eaten(t_philo *philo, int value)
+{
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->meals_eaten = value;
+	pthread_mutex_unlock(&philo->meal_mutex);
+}

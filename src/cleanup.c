@@ -5,14 +5,30 @@ int	exit_error(char *msg, t_table *table)
 	printf("%s\n", msg);
 	if (table)
 	{
+		destroy_meal_mutexes(table);
 		free_philos(table);
-		destroy_forks_and_meal_mutexes(table);
+		destroy_forks(table);
 		pthread_mutex_destroy(&table->stop_mutex);
 	}
 	exit(FAILURE);
 }
 
-int	destroy_forks_and_meal_mutexes(t_table *table)
+int	destroy_meal_mutexes(t_table *table)
+{
+	int	i;
+
+	if (!table->philos)
+		return (SUCCESS);
+	i = 0;
+	while (i < table->meal_mutex_inited)
+	{	
+		pthread_mutex_destroy(&table->philos[i].meal_mutex);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	destroy_forks(t_table *table)
 {
 	int	i;
 
@@ -22,7 +38,6 @@ int	destroy_forks_and_meal_mutexes(t_table *table)
 	while (i < table->n_philos)
 	{
 		pthread_mutex_destroy(&table->forks[i]);
-		pthread_mutex_destroy(&table->philos[i].meal_mutex);
 		i++;
 	}
 	free(table->forks);

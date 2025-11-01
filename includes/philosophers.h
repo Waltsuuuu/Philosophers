@@ -40,6 +40,7 @@ typedef struct s_table
 	long			start_ms;
 	int				end_sim;
 	pthread_mutex_t	stop_mutex;
+	int				meal_mutex_inited;
 }	t_table;
 
 // main.c
