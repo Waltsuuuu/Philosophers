@@ -23,6 +23,7 @@ typedef struct s_philo
 	pthread_mutex_t	*fork2;
 	int				meals_eaten;
 	long			last_meal;
+	pthread_mutex_t	meal_mutex;
 	t_table			*table;
 	pthread_t		thread;
 }	t_philo;
@@ -60,7 +61,7 @@ void	set_end_sim(t_table *table, int value);
 
 // cleanup.c
 int	exit_error(char *msg, t_table *table);
-int	destroy_forks(t_table *table);
+int	destroy_forks_and_meal_mutexes(t_table *table);
 int free_philos(t_table *table);
 
 // timing.c

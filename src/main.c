@@ -91,6 +91,12 @@ int	create_philos(t_table *table)
 		table->philos[i].last_meal = 0;
 		table->philos[i].meals_eaten = 0;
 		table->philos[i].table = table;
+		if (pthread_mutex_init(&table->philos[i].meal_mutex, NULL) != SUCCESS)
+		{
+			while (--i >= 0)
+				pthread_mutex_destroy(&table->philos[i].meal_mutex);
+			return (exit_error("ERROR: mutex_init() failure.\n", table));
+		}
 		i++;
 	}
 	return (SUCCESS);
