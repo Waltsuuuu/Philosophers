@@ -14,6 +14,9 @@ void	*philo_routine(void *philo_data)
 	while (get_end_sim(philo->table) == FALSE
 		&& philo->meals_eaten < philo->table->n_meals)
 	{
+		if (philo->id % 2 == 0)
+		    usleep((philo->table->t_eat / 2) * 1000);
+
 		think(philo);
 		take_forks(philo);
 		eat(philo);
@@ -37,8 +40,6 @@ void	single_philo_case(t_philo *philo)
 	printf("%ld %d has taken a fork\n",
 		time_since_start_ms(philo->table->start_ms), philo->id);
 	usleep(philo->table->t_die * 1000);
-	printf("%ld %d died\n",
-		time_since_start_ms(philo->table->start_ms), philo->id);
 	pthread_mutex_unlock(philo->fork1);
 }
 
