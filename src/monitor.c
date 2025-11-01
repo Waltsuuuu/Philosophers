@@ -11,7 +11,7 @@ void	run_monitor(t_table *table)
 		while (i < table->n_philos && get_end_sim(table) == FALSE)
 		{
 			now = fetch_time_ms();
-			if (now - table->philos[i].last_meal >= table->t_die)
+			if (now - get_last_meal(&table->philos[i]) >= table->t_die)
 			{
 				printf("%ld %d died\n",
 					time_since_start_ms(table->start_ms), table->philos[i].id);
@@ -34,7 +34,7 @@ int	all_philos_fed(t_table *table)
 	i = 0;
 	while (i < table->n_philos)
 	{
-		if (table->philos[i].meals_eaten < table->n_meals)
+		if (get_meals_eaten(&table->philos[i])< table->n_meals)
 			return (FALSE);
 		i++;
 	}
