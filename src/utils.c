@@ -32,3 +32,22 @@ int	pos_atoi(const char *s)
 		exit_error("ERROR: Non-numeric or empty input.", NULL);
 	return ((int)res);
 }
+
+// Thread-safe 'end_sim' value checker.
+int	get_end_sim(t_table *table)
+{
+	int	value;
+
+	pthread_mutex_lock(&table->stop_mutex);
+	value = table->end_sim;
+	pthread_mutex_unlock(&table->stop_mutex);
+	return (value);
+}
+
+// Thread-safe 'end_sim' value updater.
+void	set_end_sim(t_table *table, int value)
+{
+	pthread_mutex_lock(&table->stop_mutex);
+	table->end_sim = value;
+	pthread_mutex_unlock(&table->stop_mutex);
+}

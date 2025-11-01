@@ -50,8 +50,9 @@ int	start_threads(t_table *table);
 int	join_threads(t_table *table);
 
 // utils.c
-int	pos_atoi(const char *s);
-int	ft_strlen(const char *s);
+int		pos_atoi(const char *s);
+int		get_end_sim(t_table *table);
+void	set_end_sim(t_table *table, int value);
 
 // cleanup.c
 int	exit_error(char *msg, t_table *table);
