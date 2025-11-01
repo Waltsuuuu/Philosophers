@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 int	parse_input(int argc, char *argv[], t_table *table)
 {
 	if ((argc != 5) && (argc != 6))
-		exit_error("Usage ./philo [t_philos] [t_die] [t_eat] [t_sleep] (opt)[n_meals]", NULL);
+		exit_error("Usage ./philo [t_philos] [t_die] [t_eat] [t_sleep] (opt)[n_meals]", table);
 	table->n_philos = pos_atoi(argv[1]);
 	table->t_die = pos_atoi(argv[2]);
 	table->t_eat = pos_atoi(argv[3]);
