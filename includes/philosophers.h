@@ -67,12 +67,11 @@ int		get_meals_eaten(t_philo *philo);
 void	increment_meals_eaten(t_philo *philo);
 int		safe_print(t_philo *philo, char *text);
 
-
 // cleanup.c
-int	exit_error(char *msg, t_table *table);
-int	destroy_meal_mutexes(t_table *table);
-int	destroy_forks(t_table *table);
-int free_philos(t_table *table);
+int		exit_error(char *msg, t_table *table);
+int		destroy_meal_mutexes(t_table *table);
+int		destroy_forks(t_table *table);
+int 	free_philos(t_table *table);
 
 // timing.c
 long	fetch_time_ms(void);

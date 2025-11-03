@@ -14,12 +14,18 @@ int main(int argc, char *argv[])
 	t_table table;
 
 	init_stop_mutex_and_end_flag(&table);
+	init_print_mutex(&table);
 	parse_input(argc, argv, &table);
 	create_forks(&table);
 	create_philos(&table);
 	start_threads(&table);
 	run_monitor(&table);
 	join_threads(&table);
+	destroy_meal_mutexes(&table);
+	free_philos(&table);
+	destroy_forks(&table);
+	pthread_mutex_destroy(&table.stop_mutex);
+	pthread_mutex_destroy(&table.print_mutex);
 	return (SUCCESS);
 }
 
