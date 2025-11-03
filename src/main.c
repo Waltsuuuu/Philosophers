@@ -21,11 +21,7 @@ int main(int argc, char *argv[])
 	start_threads(&table);
 	run_monitor(&table);
 	join_threads(&table);
-	destroy_meal_mutexes(&table);
-	free_philos(&table);
-	destroy_forks(&table);
-	pthread_mutex_destroy(&table.stop_mutex);
-	pthread_mutex_destroy(&table.print_mutex);
+	cleanup_allocs_and_mutexes(&table);
 	return (SUCCESS);
 }
 

@@ -14,6 +14,15 @@ int	exit_error(char *msg, t_table *table)
 	exit(FAILURE);
 }
 
+void	cleanup_allocs_and_mutexes(t_table *table)
+{
+	destroy_meal_mutexes(table);
+	free_philos(table);
+	destroy_forks(table);
+	pthread_mutex_destroy(&table->stop_mutex);
+	pthread_mutex_destroy(&table->print_mutex);
+}
+
 int	destroy_meal_mutexes(t_table *table)
 {
 	int	i;

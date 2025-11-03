@@ -69,6 +69,7 @@ int		safe_print(t_philo *philo, char *text);
 
 // cleanup.c
 int		exit_error(char *msg, t_table *table);
+void	cleanup_allocs_and_mutexes(t_table *table);
 int		destroy_meal_mutexes(t_table *table);
 int		destroy_forks(t_table *table);
 int 	free_philos(t_table *table);
