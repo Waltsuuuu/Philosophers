@@ -36,8 +36,7 @@ void	sync_start(t_philo *philo)
 void	single_philo_case(t_philo *philo)
 {
 	pthread_mutex_lock(philo->fork1);
-	printf("%ld %d has taken a fork\n",
-		time_since_start_ms(philo->table->start_ms), philo->id);
+	safe_print(philo, "has taken a fork");
 	usleep(philo->table->t_die * 1000);
 	pthread_mutex_unlock(philo->fork1);
 }
@@ -45,8 +44,7 @@ void	single_philo_case(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	printf("%ld %d is thinking\n",
-		time_since_start_ms(philo->table->start_ms), philo->id);
+	safe_print(philo, "is thinking");
 }
 
 // Take fork == Attempt to lock 'fork' mutex.
@@ -55,11 +53,9 @@ void	take_forks(t_philo *philo)
 {
 
 	pthread_mutex_lock(philo->fork1);
-	printf("%ld %d has taken a fork\n",
-		time_since_start_ms(philo->table->start_ms), philo->id);
+	safe_print(philo, "has taken a fork");
 	pthread_mutex_lock(philo->fork2);
-	printf("%ld %d has taken a fork\n",
-		time_since_start_ms(philo->table->start_ms), philo->id);
+	safe_print(philo, "has taken a fork");
 }
 
 // Sets last_meal to current timestamp when philo begins eating.
@@ -67,8 +63,7 @@ void	take_forks(t_philo *philo)
 // Increases meals_eaten by one.
 void	eat(t_philo *philo)
 {
-	printf("%ld %d is eating\n",
-		time_since_start_ms(philo->table->start_ms), philo->id);
+	safe_print(philo, "is eating");
 	set_last_meal(philo, fetch_time_ms());
 	increment_meals_eaten(philo);
 	usleep(philo->table->t_eat * 1000);
@@ -84,7 +79,6 @@ void	drop_forks(t_philo *philo)
 // Sleeps (usleep) for t_sleep milliseconds.
 void	philo_sleep(t_philo *philo)
 {
-	printf("%ld %d is sleeping\n",
-		time_since_start_ms(philo->table->start_ms), philo->id);
+	safe_print(philo, "is sleeping");
 	usleep(philo->table->t_sleep * 1000);
 }

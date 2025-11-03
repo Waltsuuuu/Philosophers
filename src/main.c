@@ -110,6 +110,13 @@ int	init_stop_mutex_and_end_flag(t_table *table)
 	return (SUCCESS);
 }
 
+int	init_print_mutex(t_table *table)
+{
+	if (pthread_mutex_init(&table->print_mutex, NULL) != SUCCESS)
+		return (exit_error("ERROR: mutex_init() failure.", table));
+	return (SUCCESS);
+}
+
 // Creates n_philos threads, which begin at philo_routine().
 // Sets start_ms - The beginning timestamp of the simulation + 50ms buffer.
 // 		- In the routine, all philos will wait until until

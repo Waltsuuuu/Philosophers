@@ -41,6 +41,7 @@ typedef struct s_table
 	int				end_sim;
 	pthread_mutex_t	stop_mutex;
 	int				meal_mutex_inited;
+	pthread_mutex_t	print_mutex;
 }	t_table;
 
 // main.c
@@ -48,6 +49,7 @@ int	parse_input(int argc, char *argv[], t_table *table);
 int	create_forks(t_table *table);
 int	create_philos(t_table *table);
 int	init_stop_mutex_and_end_flag(t_table *table);
+int	init_print_mutex(t_table *table);
 int	start_threads(t_table *table);
 int	join_threads(t_table *table);
 
@@ -63,6 +65,7 @@ long	get_last_meal(t_philo *philo);
 void	set_last_meal(t_philo *philo, long time);
 int		get_meals_eaten(t_philo *philo);
 void	increment_meals_eaten(t_philo *philo);
+int		safe_print(t_philo *philo, char *text);
 
 
 // cleanup.c

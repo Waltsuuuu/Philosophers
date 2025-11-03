@@ -13,8 +13,7 @@ void	run_monitor(t_table *table)
 			now = fetch_time_ms();
 			if (now - get_last_meal(&table->philos[i]) >= table->t_die)
 			{
-				printf("%ld %d died\n",
-					time_since_start_ms(table->start_ms), table->philos[i].id);
+				safe_print(&table->philos[i], "died");
 				set_end_sim(table, TRUE);
 			}
 			i++;
