@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 {
 	t_table table;
 
+	memset(&table, 0, sizeof(table));
 	init_stop_mutex_and_end_flag(&table);
 	init_print_mutex(&table);
 	parse_input(argc, argv, &table);
