@@ -11,11 +11,11 @@ void	*philo_routine(void *philo_data)
 		single_philo_case(philo);
 		return (NULL);
 	}
+	if (philo->id % 2)
+		usleep(500);
 	while (get_end_sim(philo->table) == FALSE
 		&& get_meals_eaten(philo) < philo->table->n_meals)
 	{
-		if ((philo->id % 2) == 0)
-			usleep((philo->table->t_eat / 2) * 1000);
 		think(philo);
 		take_forks(philo);
 		eat(philo);
@@ -51,7 +51,6 @@ void	think(t_philo *philo)
 // Once mutex locked - Prints "[timestamp] [philo_id] has taken a fork".
 void	take_forks(t_philo *philo)
 {
-
 	pthread_mutex_lock(philo->fork1);
 	safe_print(philo, "has taken a fork");
 	pthread_mutex_lock(philo->fork2);
