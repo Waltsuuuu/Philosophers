@@ -81,12 +81,9 @@ long	time_since_start_ms(long start_ms);
 
 // routine.c
 void	*philo_routine(void *philo_data);
-void	sync_start(t_philo *philo);
+void	wait_for_start_ms(t_philo *philo);
+void	stagger_start(t_philo *philo);
 void	single_philo_case(t_philo *philo);
-void	think(t_philo *philo);
-void	take_forks(t_philo *philo);
-void	eat(t_philo *philo);
-void	drop_forks(t_philo *philo);
-void	philo_sleep(t_philo *philo);
+void	take_forks_and_eat(t_philo *philo);
 
 #endif
