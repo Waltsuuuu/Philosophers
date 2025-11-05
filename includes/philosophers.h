@@ -66,7 +66,7 @@ long	get_last_meal(t_philo *philo);
 void	set_last_meal(t_philo *philo, long time);
 int		get_meals_eaten(t_philo *philo);
 void	increment_meals_eaten(t_philo *philo);
-int		safe_print(t_philo *philo, char *text);
+void	safe_print(t_philo *philo, char *text);
 
 // cleanup.c
 int		exit_error(char *msg, t_table *table);

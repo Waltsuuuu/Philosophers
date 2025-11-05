@@ -91,13 +91,11 @@ void	increment_meals_eaten(t_philo *philo)
 // Thread-safe printf.
 // Denies printing if 'end_sim' is set to true,
 // to prevent prints after a death has occured.
-int	safe_print(t_philo *philo, char *text)
+void	safe_print(t_philo *philo, char *text)
 {
-	if (get_end_sim(philo->table) == TRUE)
-		return (FAILURE);
 	pthread_mutex_lock(&philo->table->print_mutex);
-	printf("%ld %d %s\n", time_since_start_ms(philo->table->start_ms),
-		philo->id, text);
+	if (get_end_sim(philo->table) == FALSE)
+		printf("%ld %d %s\n", time_since_start_ms(philo->table->start_ms),
+			philo->id, text);
 	pthread_mutex_unlock(&philo->table->print_mutex);
-	return (SUCCESS);
 }
