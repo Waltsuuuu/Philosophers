@@ -1,10 +1,10 @@
 #include "philosophers.h"
 
-// Waits for all philo threads to terminate.
-// Note:
-// 	- If a thread has already terminated, then
-// 	  pthread_join() returns immediately.
-//  - Meaning the order in which they terminate does not matter.
+/* Waits for all philo threads to terminate.
+Note:
+	- If a thread has already terminated, then
+	  pthread_join() returns immediately.
+ 	- Meaning the order in which they terminate does not matter. */
 int	join_threads(t_table *table)
 {
 	int	i;

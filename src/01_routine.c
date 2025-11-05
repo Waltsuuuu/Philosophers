@@ -1,7 +1,9 @@
 #include "philosophers.h"
 
-// Routine:
-// Think, Pick-up forks, Eat, Drop forks, Sleep.
+/*
+Philo threads repeat routine while 'end_sim' is FALSE.
+Routie: Think, Pick-up forks, Eat, Drop forks, Sleep.
+*/
 void	*philo_routine(void *philo_data)
 {
 	t_philo	*philo;
@@ -29,14 +31,14 @@ void	*philo_routine(void *philo_data)
 	return (NULL);
 }
 
-// Wait until the clock hits 'start_ms' before starting the routine.
+/* Wait until the clock hits 'start_ms' before starting the routine. */
 void	wait_for_start_ms(t_philo *philo)
 {
 	while (current_time_ms() < philo->table->start_ms)
 		usleep(500);
 }
 
-// 1 philo == 1 fork at table == cant eat == die.
+/* 1 philo == 1 fork at table == cant eat == death */
 void	single_philo_case(t_philo *philo)
 {
 	pthread_mutex_lock(philo->fork1);
@@ -45,12 +47,14 @@ void	single_philo_case(t_philo *philo)
 	pthread_mutex_unlock(philo->fork1);
 }
 
-// Delays the routine start of philos with odd numbered id,
-// to prevent large wave of simultaneous fork pick ups.
-// n_philos > 100;
-// 	- Odd philos wait roughly 't_eat'.
-// n_philos < 100:
-// 	- Odd philos wait 0.5ms.
+/*
+Delays the routine start of philos with odd numbered id,
+to prevent large wave of simultaneous fork pick ups.
+If 'n_philos' > 100;
+	- Odd philos wait roughly 't_eat'.
+If 'n_philos' < 100:
+	- Odd philos wait 0.5ms.
+*/
 void	stagger_start(t_philo *philo)
 {
 	if (philo->id % 2 != 0)
@@ -66,8 +70,12 @@ void	stagger_start(t_philo *philo)
 	}
 }
 
-// Take fork == Attempt to lock 'fork' mutex.
-// Once mutex locked - Prints "[timestamp] [philo_id] has taken a fork".
+/* Take fork == Attempt to lock 'fork' mutex.
+Once mutex locked:
+1. Prints "[timestamp] [philo_id] has taken a fork".
+2. Eats for 't_eat' milliseconds,
+   while checking 'end_sim' every 500 microseconds.
+*/
 void	take_forks_and_eat(t_philo *philo)
 {
 	long	started_eating;

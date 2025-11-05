@@ -1,5 +1,12 @@
 #include "philosophers.h"
 
+/*  Monitors philo deaths and 'meals_eaten' and sets 'end_sim' flag accordingly.
+Simulation ends if:
+	1. If a philo dies
+	2. 'n_meals' is provided and all philos have eaten 'n_meals'.
+Note:
+	- Philos die if they dont begin eating within 't_die' milliseconds.
+*/
 void	run_monitor(t_table *table)
 {
 	int		i;
@@ -27,6 +34,7 @@ void	run_monitor(t_table *table)
 	}
 }
 
+/* Checks if all philosophers have eaten 'n_meals' */
 int	all_philos_fed(t_table *table)
 {
 	int	i;

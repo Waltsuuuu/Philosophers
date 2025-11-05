@@ -1,13 +1,10 @@
 #include "philosophers.h"
 
-// Ex. without meals	./philo 5 800 200 200
-// Ex. with meals 		./philo 5 800 200 200 8
-// ARGV[]
-// [1] n_philos
-// [2] t_die
-// [3] t_eat
-// [4] t_sleep
-// [5] n_meals [optional] 
+/* 
+Run without meals	./philo 5 800 200 200
+Run with meals 		./philo 5 800 200 200 8
+[1] n_philos, [2] t_die, [3] t_eat, [4] t_sleep, [5] n_meals [optional] 
+*/
 int	main(int argc, char *argv[])
 {
 	t_table	table;
@@ -24,13 +21,13 @@ int	main(int argc, char *argv[])
 	return (SUCCESS);
 }
 
-// Validates and stores command line input.
-// If valid: 
-// 	- Converts the arguments to their integer representations.
-// 	- Stores the converted values their respective fields
-// 	  inside the t_table struct.
-// If invalid:
-//	- Error and exit.
+/* Validates and stores command line input.
+If valid: 
+	- Converts the arguments to their integer representations.
+	- Stores the converted values their respective fields
+	  inside the 't_table' struct.
+If invalid:
+	- Error and exit. */
 int	parse_input(int argc, char *argv[], t_table *table)
 {
 	char	*usage;
@@ -49,8 +46,8 @@ int	parse_input(int argc, char *argv[], t_table *table)
 	return (SUCCESS);
 }
 
-// Allocates memory an array of mutexes (forks) and initializes each mutex.
-// On malloc() or mutex_init() failure, cleanup and exit.
+/* Allocates an array of mutexes (forks) and initializes each mutex.
+- On malloc() or mutex_init() failure - cleanup and exit. */
 int	create_forks(t_table *table)
 {
 	int	i;
@@ -74,12 +71,12 @@ int	create_forks(t_table *table)
 	return (SUCCESS);
 }
 
-// Allocates n_philos size array of t_philos.
-// Initializes each t_philos fields.
-// Note:
-//  - Philo ids start from 1.
-// 	- ((i + 1) % n_philos) ensures the
-//	last philos fork2 (right fork) is fork[0]. 
+/* Allocates 'n_philos' size array of 't_philos'.
+Initializes each 't_philos' fields.
+Note:
+ - Philo 'id's start from 1.
+ - (i + 1) % n_philos - ensures the last
+   philos 'fork2' (right fork) is 'fork[0]'. */
 int	create_philos(t_table *table)
 {
 	int	i;
@@ -105,12 +102,15 @@ int	create_philos(t_table *table)
 	return (SUCCESS);
 }
 
-// Creates n_philos threads, which begin at philo_routine().
-// Sets start_ms - The beginning timestamp of the simulation + 50ms buffer.
-// 		- In the routine, all philos will wait until until
-//		  start_ms is reached before beginning the routine.
-// Sets each philos initial last_meal to start_ms.
-// On failure, joins already created threads, cleans and exits.
+/*
+1. Creates 'n_philos' threads, which begin at 'philo_routine()'.
+2. Sets 'start_ms', the simluation start time to 50ms in the future. 
+		- After thread creation - each thread will wait until
+		  'start_ms' is reached before starting their routine.
+3. Sets each philos initial 'last_meal' to 'start_ms'.
+
+On failure, joins already created threads, cleans and exits.
+*/
 int	start_threads(t_table *table)
 {
 	int	i;

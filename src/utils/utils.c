@@ -1,7 +1,7 @@
 #include "philosophers.h"
 
-// Initializes the stop mutex and sets the simulation stop flag to FALSE.
-// On mutex_init() failure, cleanup and exit.
+/* Initializes the 'stop_mutex' and sets the simulation 'end_sim' flag to FALSE.
+On mutex_init() failure, cleanup and exit. */
 int	init_stop_mutex_and_end_flag(t_table *table)
 {
 	if (pthread_mutex_init(&table->stop_mutex, NULL) != SUCCESS)
@@ -10,6 +10,8 @@ int	init_stop_mutex_and_end_flag(t_table *table)
 	return (SUCCESS);
 }
 
+/* Initializes the 'print_mutex'.
+On mutex_init() failure, cleanup and exit. */
 int	init_print_mutex(t_table *table)
 {
 	if (pthread_mutex_init(&table->print_mutex, NULL) != SUCCESS)
@@ -17,12 +19,14 @@ int	init_print_mutex(t_table *table)
 	return (SUCCESS);
 }
 
-// Converts a numeric string to an integer.
-// Error and exit if input is:
-//  - non-numeric.
-//	- negative.
-//	- greater than INT_MAX.
-//	- empty or 0.
+/*
+Converts a numeric string to an integer.
+Error and exit if input is:
+ 	- non-numeric.
+	- negative.
+	- greater than INT_MAX.
+	- empty or 0.
+*/
 int	pos_atoi(const char *s)
 {
 	int		i;
@@ -50,7 +54,7 @@ int	pos_atoi(const char *s)
 	return ((int)res);
 }
 
-// Thread-safe 'meals_eaten' value incrementer for philo[i].
+/* Thread-safe 'meals_eaten' value incrementer for philo[i]. */
 void	increment_meals_eaten(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_mutex);
@@ -58,9 +62,9 @@ void	increment_meals_eaten(t_philo *philo)
 	pthread_mutex_unlock(&philo->meal_mutex);
 }
 
-// Thread-safe printf.
-// Denies printing if 'end_sim' is set to true,
-// to prevent prints after a death has occured.
+/* Thread-safe printf.
+Denies printing if 'end_sim' is set to true,
+to prevent prints after a death has occured. */
 void	safe_print(t_philo *philo, char *text)
 {
 	pthread_mutex_lock(&philo->table->print_mutex);
