@@ -13,8 +13,11 @@ void	run_monitor(t_table *table)
 			now = fetch_time_ms();
 			if (now - get_last_meal(&table->philos[i]) >= table->t_die)
 			{
-				safe_print(&table->philos[i], "died");
 				set_end_sim(table, TRUE);
+				pthread_mutex_lock(&table->print_mutex);
+				printf("%ld %d died\n", time_since_start_ms(table->start_ms),
+					table->philos[i].id);
+				pthread_mutex_unlock(&table->print_mutex);
 			}
 			i++;
 		}
