@@ -30,7 +30,7 @@ void	run_monitor(t_table *table)
 		}
 		if (get_end_sim(table) == FALSE && all_philos_fed(table) == TRUE)
 			set_end_sim(table, TRUE);
-		usleep(1000);
+		usleep(500);
 	}
 }
 
