@@ -1,14 +1,13 @@
 #include "philosophers.h"
-
-// ARGV[] 
-// 		ex. w/o meals	./philo 5 800 200 200 
-//		ex. w/ meal 	./philo 5 800 200 200 8
+ 
+// Ex. without meals	./philo 5 800 200 200 
+// Ex. with meals 		./philo 5 800 200 200 8
+// ARGV[]
 // [1] n_philos
 // [2] t_die
 // [3] t_eat
 // [4] t_sleep
 // [5] n_meals [optional] 
-
 int main(int argc, char *argv[])
 {
 	t_table table;
@@ -131,7 +130,7 @@ int	start_threads(t_table *table)
 	int	i;
 
 	i = 0;
-	table->start_ms = fetch_time_ms() + 50;
+	table->start_ms = current_time_ms() + 50;
 	while ( i < table->n_philos)
 	{
 		table->philos[i].last_meal = table->start_ms;

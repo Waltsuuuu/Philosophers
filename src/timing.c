@@ -12,7 +12,7 @@
 //
 // Convert seconds and microseconds to milliseconds,
 // then add them to get the current time in milliseconds.
-long	fetch_time_ms(void)
+long	current_time_ms(void)
 {
 	struct timeval	time_data;
 
@@ -24,11 +24,11 @@ long	fetch_time_ms(void)
 // Returns the elapsed time from the
 // start of the simulation, in milliseconds.
 // Used for action timestamps.
-long	time_since_start_ms(long start_ms)
+long	sim_runtime_ms(long start_ms)
 {
 	long	now;
 
-	now = fetch_time_ms();
+	now = current_time_ms();
 	if (now < start_ms)
 		return (0);
 	return (now - start_ms);

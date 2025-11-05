@@ -5,7 +5,7 @@
 void	*philo_routine(void *philo_data)
 {
 	t_philo	*philo;
-	long	current_time;
+	long	started_sleeping;
 
 	philo = (t_philo *)philo_data;
 	wait_for_start_ms(philo);
@@ -21,9 +21,9 @@ void	*philo_routine(void *philo_data)
 		safe_print(philo, "is thinking");
 		take_forks_and_eat(philo);
 		safe_print(philo, "is sleeping");
-		current_time = fetch_time_ms();
+		started_sleeping = current_time_ms();
 		while (get_end_sim(philo->table) == FALSE
-			&& fetch_time_ms() - current_time < philo->table->t_sleep)
+			&& current_time_ms() - started_sleeping < philo->table->t_sleep)
 			usleep(200);
 	}
 	return (NULL);
@@ -32,7 +32,7 @@ void	*philo_routine(void *philo_data)
 // Wait until the clock hits 'start_ms' before starting the routine.
 void	wait_for_start_ms(t_philo *philo)
 {
-	while (fetch_time_ms() < philo->table->start_ms)
+	while (current_time_ms() < philo->table->start_ms)
 		usleep(500);
 }
 
@@ -58,7 +58,7 @@ void	stagger_start(t_philo *philo)
 		if (philo->table->n_philos > 100)
 		{
 			while (get_end_sim(philo->table) == FALSE
-				&& time_since_start_ms(philo->table->start_ms) < philo->table->t_eat)
+				&& sim_runtime_ms(philo->table->start_ms) < philo->table->t_eat)
 			usleep(500);
 		}
 		else
@@ -70,17 +70,17 @@ void	stagger_start(t_philo *philo)
 // Once mutex locked - Prints "[timestamp] [philo_id] has taken a fork".
 void	take_forks_and_eat(t_philo *philo)
 {
-	long current_time;
+	long started_eating;
 
 	pthread_mutex_lock(philo->fork1);
 	safe_print(philo, "has taken a fork");
 	pthread_mutex_lock(philo->fork2);
 	safe_print(philo, "has taken a fork");
-	set_last_meal(philo, fetch_time_ms());
+	set_last_meal(philo, current_time_ms());
 	safe_print(philo, "is eating");
-	current_time = fetch_time_ms();
+	started_eating = current_time_ms();
 	while (get_end_sim(philo->table) == FALSE
-		&& fetch_time_ms() - current_time < philo->table->t_eat)
+		&& current_time_ms() - started_eating < philo->table->t_eat)
 		usleep(500);
 	pthread_mutex_unlock(philo->fork2);
 	pthread_mutex_unlock(philo->fork1);

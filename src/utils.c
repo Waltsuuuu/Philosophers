@@ -95,7 +95,7 @@ void	safe_print(t_philo *philo, char *text)
 {
 	pthread_mutex_lock(&philo->table->print_mutex);
 	if (get_end_sim(philo->table) == FALSE)
-		printf("%ld %d %s\n", time_since_start_ms(philo->table->start_ms),
+		printf("%ld %d %s\n", sim_runtime_ms(philo->table->start_ms),
 			philo->id, text);
 	pthread_mutex_unlock(&philo->table->print_mutex);
 }

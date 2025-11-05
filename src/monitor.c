@@ -10,12 +10,12 @@ void	run_monitor(t_table *table)
 		i = 0;
 		while (i < table->n_philos && get_end_sim(table) == FALSE)
 		{
-			now = fetch_time_ms();
+			now = current_time_ms();
 			if (now - get_last_meal(&table->philos[i]) >= table->t_die)
 			{
 				set_end_sim(table, TRUE);
 				pthread_mutex_lock(&table->print_mutex);
-				printf("%ld %d died\n", time_since_start_ms(table->start_ms),
+				printf("%ld %d died\n", sim_runtime_ms(table->start_ms),
 					table->philos[i].id);
 				pthread_mutex_unlock(&table->print_mutex);
 			}

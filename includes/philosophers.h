@@ -76,8 +76,8 @@ int		destroy_forks(t_table *table);
 int 	free_philos(t_table *table);
 
 // timing.c
-long	fetch_time_ms(void);
-long	time_since_start_ms(long start_ms);
+long	current_time_ms(void);
+long	sim_runtime_ms(long start_ms);
 
 // routine.c
 void	*philo_routine(void *philo_data);
