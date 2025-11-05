@@ -10,8 +10,8 @@
 // 	1 second		= 1000 milliseconds
 // 	1 millisecond	= 1000 microseconds
 //
-// Convert seconds and microseconds to milliseconds,
-// then add them to get the current time in milliseconds.
+// Converts seconds and microseconds to milliseconds,
+// then adds them to get the current time in milliseconds.
 long	current_time_ms(void)
 {
 	struct timeval	time_data;

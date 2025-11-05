@@ -1,19 +1,19 @@
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <string.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <limits.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <string.h>
 
 # define SUCCESS 0
 # define FAILURE 1
 
-# define FALSE 0
 # define TRUE 1
+# define FALSE 0
 
 typedef struct s_table	t_table;
 
@@ -46,38 +46,32 @@ typedef struct s_table
 }	t_table;
 
 // main.c
-int	parse_input(int argc, char *argv[], t_table *table);
-int	create_forks(t_table *table);
-int	create_philos(t_table *table);
-int	init_stop_mutex_and_end_flag(t_table *table);
-int	init_print_mutex(t_table *table);
-int	start_threads(t_table *table);
-int	join_threads(t_table *table);
+int		parse_input(int argc, char *argv[], t_table *table);
+int		create_forks(t_table *table);
+int		create_philos(t_table *table);
+int		start_threads(t_table *table);
 
 // monitor.c
 void	run_monitor(t_table *table);
 int		all_philos_fed(t_table *table);
 
 // utils.c
+int		init_stop_mutex_and_end_flag(t_table *table);
+int		init_print_mutex(t_table *table);
 int		pos_atoi(const char *s);
+void	increment_meals_eaten(t_philo *philo);
+void	safe_print(t_philo *philo, char *text);
+
+// timing.c
+long	current_time_ms(void);
+long	sim_runtime_ms(long start_ms);
+
+// get_set_utils.c
 int		get_end_sim(t_table *table);
 void	set_end_sim(t_table *table, int value);
 long	get_last_meal(t_philo *philo);
 void	set_last_meal(t_philo *philo, long time);
 int		get_meals_eaten(t_philo *philo);
-void	increment_meals_eaten(t_philo *philo);
-void	safe_print(t_philo *philo, char *text);
-
-// cleanup.c
-int		exit_error(char *msg, t_table *table);
-void	cleanup_allocs_and_mutexes(t_table *table);
-int		destroy_meal_mutexes(t_table *table);
-int		destroy_forks(t_table *table);
-int 	free_philos(t_table *table);
-
-// timing.c
-long	current_time_ms(void);
-long	sim_runtime_ms(long start_ms);
 
 // routine.c
 void	*philo_routine(void *philo_data);
@@ -85,5 +79,15 @@ void	wait_for_start_ms(t_philo *philo);
 void	stagger_start(t_philo *philo);
 void	single_philo_case(t_philo *philo);
 void	take_forks_and_eat(t_philo *philo);
+
+// cleanup.c
+int		exit_error(char *msg, t_table *table);
+void	cleanup_allocs_and_mutexes(t_table *table);
+
+// cleanup_utils.c
+int		join_threads(t_table *table);
+int		destroy_meal_mutexes(t_table *table);
+int		destroy_forks(t_table *table);
+int		free_philos(t_table *table);
 
 #endif

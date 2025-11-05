@@ -16,50 +16,10 @@ int	exit_error(char *msg, t_table *table)
 
 void	cleanup_allocs_and_mutexes(t_table *table)
 {
+	join_threads(table);
 	destroy_meal_mutexes(table);
 	free_philos(table);
 	destroy_forks(table);
 	pthread_mutex_destroy(&table->stop_mutex);
 	pthread_mutex_destroy(&table->print_mutex);
-}
-
-int	destroy_meal_mutexes(t_table *table)
-{
-	int	i;
-
-	if (!table->philos)
-		return (SUCCESS);
-	i = 0;
-	while (i < table->meal_mutex_inited)
-	{	
-		pthread_mutex_destroy(&table->philos[i].meal_mutex);
-		i++;
-	}
-	return (SUCCESS);
-}
-
-int	destroy_forks(t_table *table)
-{
-	int	i;
-
-	if (!table->forks)
-		return (SUCCESS);
-	i = 0;
-	while (i < table->n_philos)
-	{
-		pthread_mutex_destroy(&table->forks[i]);
-		i++;
-	}
-	free(table->forks);
-	table->forks = NULL;
-	return (SUCCESS);
-}
-
-int free_philos(t_table *table)
-{
-	if (!table->philos)
-		return (0);
-	free(table->philos);
-	table->philos = NULL;
-	return (SUCCESS);
 }

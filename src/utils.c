@@ -1,5 +1,22 @@
 #include "philosophers.h"
 
+// Initializes the stop mutex and sets the simulation stop flag to FALSE.
+// On mutex_init() failure, cleanup and exit.
+int	init_stop_mutex_and_end_flag(t_table *table)
+{
+	if (pthread_mutex_init(&table->stop_mutex, NULL) != SUCCESS)
+		return (exit_error("ERROR: mutex_init() failure.", NULL));
+	table->end_sim = FALSE;
+	return (SUCCESS);
+}
+
+int	init_print_mutex(t_table *table)
+{
+	if (pthread_mutex_init(&table->print_mutex, NULL) != SUCCESS)
+		return (exit_error("ERROR: mutex_init() failure.", table));
+	return (SUCCESS);
+}
+
 // Converts a numeric string to an integer.
 // Error and exit if input is:
 //  - non-numeric.
@@ -31,53 +48,6 @@ int	pos_atoi(const char *s)
 	if (s[i] != '\0' || res <= 0)
 		exit_error("ERROR: Non-numeric or empty input.", NULL);
 	return ((int)res);
-}
-
-// Thread-safe 'end_sim' value checker.
-int	get_end_sim(t_table *table)
-{
-	int	value;
-
-	pthread_mutex_lock(&table->stop_mutex);
-	value = table->end_sim;
-	pthread_mutex_unlock(&table->stop_mutex);
-	return (value);
-}
-
-// Thread-safe 'end_sim' value updater.
-void	set_end_sim(t_table *table, int value)
-{
-	pthread_mutex_lock(&table->stop_mutex);
-	table->end_sim = value;
-	pthread_mutex_unlock(&table->stop_mutex);
-}
-
-// Thread-safe 'last_meal' value checker for philo[i].
-long	get_last_meal(t_philo *philo)
-{
-	long	value;
-	pthread_mutex_lock(&philo->meal_mutex);
-	value = philo->last_meal;
-	pthread_mutex_unlock(&philo->meal_mutex);
-	return (value);
-}
-
-// Thread-safe 'last_meal' value updated for philo[i].
-void	set_last_meal(t_philo *philo, long time)
-{
-	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal = time;
-	pthread_mutex_unlock(&philo->meal_mutex);
-}
-
-// Thread-safe 'meals_eaten' value checker for philo[i].
-int	get_meals_eaten(t_philo *philo)
-{
-	int	value;
-	pthread_mutex_lock(&philo->meal_mutex);
-	value = philo->meals_eaten;
-	pthread_mutex_unlock(&philo->meal_mutex);
-	return (value);
 }
 
 // Thread-safe 'meals_eaten' value incrementer for philo[i].

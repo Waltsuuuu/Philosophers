@@ -1,6 +1,6 @@
 #include "philosophers.h"
- 
-// Ex. without meals	./philo 5 800 200 200 
+
+// Ex. without meals	./philo 5 800 200 200
 // Ex. with meals 		./philo 5 800 200 200 8
 // ARGV[]
 // [1] n_philos
@@ -8,9 +8,9 @@
 // [3] t_eat
 // [4] t_sleep
 // [5] n_meals [optional] 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_table table;
+	t_table	table;
 
 	memset(&table, 0, sizeof(table));
 	init_stop_mutex_and_end_flag(&table);
@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
 	create_philos(&table);
 	start_threads(&table);
 	run_monitor(&table);
-	join_threads(&table);
 	cleanup_allocs_and_mutexes(&table);
 	return (SUCCESS);
 }
@@ -34,8 +33,11 @@ int main(int argc, char *argv[])
 //	- Error and exit.
 int	parse_input(int argc, char *argv[], t_table *table)
 {
+	char	*usage;
+
+	usage = "Usage ./philo [t_philos] [t_die] [t_eat] [t_sleep] [n_meals]\n";
 	if ((argc != 5) && (argc != 6))
-		exit_error("Usage ./philo [t_philos] [t_die] [t_eat] [t_sleep] (opt)[n_meals]", table);
+		exit_error(usage, table);
 	table->n_philos = pos_atoi(argv[1]);
 	table->t_die = pos_atoi(argv[2]);
 	table->t_eat = pos_atoi(argv[3]);
@@ -55,7 +57,7 @@ int	create_forks(t_table *table)
 
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->n_philos);
 	if (!table->forks)
-		return(exit_error("ERROR: malloc() failure.", table));
+		return (exit_error("ERROR: malloc() failure.", table));
 	i = 0;
 	while (i < table->n_philos)
 	{
@@ -76,7 +78,8 @@ int	create_forks(t_table *table)
 // Initializes each t_philos fields.
 // Note:
 //  - Philo ids start from 1.
-// 	- ((i + 1) % n_philos), ensures the last philos fork2 (right frork) is fork[0]. 
+// 	- ((i + 1) % n_philos) ensures the
+//	last philos fork2 (right fork) is fork[0]. 
 int	create_philos(t_table *table)
 {
 	int	i;
@@ -102,23 +105,6 @@ int	create_philos(t_table *table)
 	return (SUCCESS);
 }
 
-// Initializes the stop mutex and sets the simulation stop flag to FALSE.
-// On mutex_init() failure, cleanup and exit.
-int	init_stop_mutex_and_end_flag(t_table *table)
-{
-	if (pthread_mutex_init(&table->stop_mutex, NULL) != SUCCESS)
-		return (exit_error("ERROR: mutex_init() failure.", NULL));
-	table->end_sim = FALSE;
-	return (SUCCESS);
-}
-
-int	init_print_mutex(t_table *table)
-{
-	if (pthread_mutex_init(&table->print_mutex, NULL) != SUCCESS)
-		return (exit_error("ERROR: mutex_init() failure.", table));
-	return (SUCCESS);
-}
-
 // Creates n_philos threads, which begin at philo_routine().
 // Sets start_ms - The beginning timestamp of the simulation + 50ms buffer.
 // 		- In the routine, all philos will wait until until
@@ -131,7 +117,7 @@ int	start_threads(t_table *table)
 
 	i = 0;
 	table->start_ms = current_time_ms() + 50;
-	while ( i < table->n_philos)
+	while (i < table->n_philos)
 	{
 		table->philos[i].last_meal = table->start_ms;
 		i++;
@@ -146,24 +132,6 @@ int	start_threads(t_table *table)
 				pthread_join(table->philos[i].thread, NULL);
 			return (exit_error("ERROR: pthread_create() failure.", table));
 		}
-		i++;
-	}
-	return (SUCCESS);
-}
-
-// Waits for all philo threads to terminate.
-// Note:
-// 	- If a thread has already terminated, then
-// 	  pthread_join() returns immediately.
-//  - Meaning the order in which they terminate does not matter.
-int	join_threads(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	while (i < table->n_philos)
-	{
-		pthread_join(table->philos[i].thread, NULL);
 		i++;
 	}
 	return (SUCCESS);

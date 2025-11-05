@@ -59,7 +59,7 @@ void	stagger_start(t_philo *philo)
 		{
 			while (get_end_sim(philo->table) == FALSE
 				&& sim_runtime_ms(philo->table->start_ms) < philo->table->t_eat)
-			usleep(500);
+				usleep(500);
 		}
 		else
 			usleep(500);
@@ -70,7 +70,7 @@ void	stagger_start(t_philo *philo)
 // Once mutex locked - Prints "[timestamp] [philo_id] has taken a fork".
 void	take_forks_and_eat(t_philo *philo)
 {
-	long started_eating;
+	long	started_eating;
 
 	pthread_mutex_lock(philo->fork1);
 	safe_print(philo, "has taken a fork");

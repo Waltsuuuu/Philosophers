@@ -36,7 +36,7 @@ int	all_philos_fed(t_table *table)
 	i = 0;
 	while (i < table->n_philos)
 	{
-		if (get_meals_eaten(&table->philos[i])< table->n_meals)
+		if (get_meals_eaten(&table->philos[i]) < table->n_meals)
 			return (FALSE);
 		i++;
 	}
