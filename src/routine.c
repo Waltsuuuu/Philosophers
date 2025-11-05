@@ -36,6 +36,15 @@ void	wait_for_start_ms(t_philo *philo)
 		usleep(500);
 }
 
+// 1 philo == 1 fork at table == cant eat == die.
+void	single_philo_case(t_philo *philo)
+{
+	pthread_mutex_lock(philo->fork1);
+	safe_print(philo, "has taken a fork");
+	usleep(philo->table->t_die * 1000);
+	pthread_mutex_unlock(philo->fork1);
+}
+
 // Delays the routine start of philos with odd numbered id,
 // to prevent large wave of simultaneous fork pick ups.
 // n_philos > 100;
@@ -55,15 +64,6 @@ void	stagger_start(t_philo *philo)
 		else
 			usleep(500);
 	}
-}
-
-// 1 philo == 1 fork at table == cant eat == die.
-void	single_philo_case(t_philo *philo)
-{
-	pthread_mutex_lock(philo->fork1);
-	safe_print(philo, "has taken a fork");
-	usleep(philo->table->t_die * 1000);
-	pthread_mutex_unlock(philo->fork1);
 }
 
 // Take fork == Attempt to lock 'fork' mutex.
