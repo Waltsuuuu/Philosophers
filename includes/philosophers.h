@@ -65,6 +65,7 @@ void	safe_print(t_philo *philo, char *text);
 // timing.c
 long	current_time_ms(void);
 long	sim_runtime_ms(long start_ms);
+void	wait_for_start_ms(t_philo *philo);
 
 // get_set_utils.c
 int		get_end_sim(t_table *table);
@@ -75,10 +76,10 @@ int		get_meals_eaten(t_philo *philo);
 
 // routine.c
 void	*philo_routine(void *philo_data);
-void	wait_for_start_ms(t_philo *philo);
 void	stagger_start(t_philo *philo);
 void	single_philo_case(t_philo *philo);
 void	take_forks_and_eat(t_philo *philo);
+void	think_pause(t_philo *philo);
 
 // cleanup.c
 int		exit_error(char *msg, t_table *table);

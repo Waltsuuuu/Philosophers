@@ -33,3 +33,10 @@ long	sim_runtime_ms(long start_ms)
 		return (0);
 	return (now - start_ms);
 }
+
+/* Wait until the clock hits 'start_ms' before starting the routine. */
+void	wait_for_start_ms(t_philo *philo)
+{
+	while (current_time_ms() < philo->table->start_ms)
+		usleep(500);
+}
