@@ -62,15 +62,16 @@ void	stagger_start(t_philo *philo)
 		else
 		{
 			while (get_end_sim(philo->table) == FALSE
-				&& sim_runtime_ms(philo->table->start_ms) < (philo->table->t_eat / 2))
+				&& sim_runtime_ms(philo->table->start_ms)
+				< (philo->table->t_eat / 2))
 				usleep(500);
 		}
 	}
 }
 
 /* Think "wait buffer" to prevent re-syncing after 'start_stagger()'.
-	- If even 'n_philos': t_think for maximum of 25% of (t_die - t_eat - t_sleep).
-	- If odd  'n_philos': t_think for maximum of 75% of (t_die - t_eat - t_sleep).
+- If even 'n_philos': t_think for maximum of 25% of (t_die - t_eat - t_sleep).
+- If odd  'n_philos': t_think for maximum of 75% of (t_die - t_eat - t_sleep).
 If the philos give 't_think' time is longer than the time they have until they
 MUST be eating the next meal, then t_think is set to the time they have until
 their next meal.
@@ -89,7 +90,9 @@ void	think_pause(t_philo *philo)
 	max_think = slack / 4;
 	if (philo->table->n_philos % 2 != 0)
 		max_think = slack - (slack / 4);
-	time_left = philo->table->t_die - (current_time_ms() - get_last_meal(philo)) - philo->table->t_eat;
+	time_left = philo->table->t_die
+		- (current_time_ms()
+			- get_last_meal(philo)) - philo->table->t_eat;
 	if (time_left <= 0)
 		return ;
 	t_think = max_think;
@@ -117,7 +120,7 @@ void	take_forks_and_eat(t_philo *philo)
 		pthread_mutex_lock(philo->fork1);
 		safe_print(philo, "has taken a fork");
 		pthread_mutex_lock(philo->fork2);
-		safe_print(philo, "has taken a fork");		
+		safe_print(philo, "has taken a fork");
 	}
 	else
 	{
