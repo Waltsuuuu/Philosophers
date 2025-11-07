@@ -21,7 +21,8 @@ void	*philo_routine(void *philo_data)
 		&& get_meals_eaten(philo) < philo->table->n_meals)
 	{
 		safe_print(philo, "is thinking");
-		think_pause(philo);
+		if (philo->meals_eaten != 0)
+			think_pause(philo);
 		take_forks_and_eat(philo);
 		safe_print(philo, "is sleeping");
 		started_sleeping = current_time_ms();
